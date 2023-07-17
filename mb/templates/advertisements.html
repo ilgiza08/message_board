@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+ 
+
+{% block title %}
+Объявления
+{% endblock title %}
+
+{% block content %}
+{{object_list.values}}
+    {% if object_list %}
+      {% for adv in object_list %}
+        <article class="blog-post">
+        <h2 class="blog-post-title">{{adv.title}}</h2>
+        <p class="blog-post-meta">{{adv.created}} <a href="#">adv.author</a></p>
+        <!-- <img src="{{ adv.imag.url }}" /> -->
+        <p>{{adv.text}}</p>
+        </article>
+        {% endfor %}
+      {% else %}
+      <h3>Объявлений нет!</h3>
+    {% endif %}
+
+    <nav class="blog-pagination" aria-label="Pagination">
+      <a class="btn btn-outline-primary" href="#">Ранее</a>
+      <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Далее</a>
+    </nav>
+
+{% endblock content %}
