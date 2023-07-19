@@ -6,7 +6,7 @@
 {% endblock title %}
 
 {% block content %}
-  {{object_list}}
+  <!-- {{object_list}} -->
   {% for adv in object_list %}
     <article class="blog-post">
       <h2 class="blog-post-title"><a class="text-decoration-none text-reset" href="{% url 'advertisement' adv.id %}">{{adv.title}}</a></h2>

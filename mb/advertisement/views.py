@@ -1,5 +1,6 @@
-from django.views.generic import ListView, DetailView
-from .models import Advertisement, Comment
+from django.views.generic import ListView, DetailView, CreateView
+from .models import Advertisement
+from .forms import CreateForm
 
 
 class AdvertisementView(ListView):
@@ -14,3 +15,8 @@ class AdvertisementDetailView(DetailView):
     model = Advertisement
     template_name = 'advertisement.html'
     context_object_name = 'adv'
+
+
+class AdvertisementCreateView(CreateView):
+    form_class = CreateForm
+    template_name = 'adv_create.html'
