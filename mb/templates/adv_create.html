@@ -6,11 +6,13 @@
 {% endblock title %}
 
 {% block content %}
-<h3>Добавить новость </h3>
-<form method="POST">
+<h3>Добавить обявление </h3>
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %} 
-    {{ form }} 
-    <input type="submit" value="Создать объявление">
+    {{ form.as_p }}
+    <div class="mar-top clearfix">
+        <button class="btn btn-sm btn-primary pull-right" type="submit"><i class="fa fa-pencil fa-fw"></i>Добавить обявление</button>
+        </div>
 </form>
 <br/>
 
