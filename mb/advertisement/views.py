@@ -1,9 +1,8 @@
-from typing import Any, Dict
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Advertisement
 from .forms import CreateAdvForm, CommentForm
 from django.urls import reverse
-from django.shortcuts import redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class AdvertisementView(ListView):
@@ -24,20 +23,15 @@ class AdvertisementDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['form'] = CommentForm()
         return context
-    
-    def post(self, request, *args, **kwargs):
-        form = CommentForm(data=request.POST)
-        if form.is_valid():
-            form = form.save(commit=False)
-            form.author = self.request.user
-            form.advertisement_id = self.kwargs['pk']
-            form.save()
-        else:
-            form = CommentForm()
-        return super().get(request, *args, **kwargs)
 
 
-class AdvertisementCreateView(CreateView):
+class SetAuthorMixin(LoginRequiredMixin):
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class AdvertisementCreateView(SetAuthorMixin, CreateView):
     """Создать объявление"""
     form_class = CreateAdvForm
     template_name = 'adv_create.html'
@@ -59,12 +53,15 @@ class AdvertisementUpdateView(UpdateView):
         return reverse('advertisement', kwargs={'pk': self.object.pk})
     
 
-# class AddCommentView(CreateView):
-#     template_name = 'advertisement.html'
-#     form_class = CommentForm
+class CreateCommentView(SetAuthorMixin, CreateView):
+    """Добавить комментарий"""
+    form_class = CommentForm
+    success_url = '/advertisement/'
     
-#     def form_valid(self, form):
-#         instance = form.save(commit=False)
-#         instance.author = self.request.user
-#         instance.save() 
-#         return redirect('/advertisement/')
+    def form_valid(self, form):
+        # form.instance.author = self.request.user
+        form.instance.advertisement_id = self.kwargs['pk']
+        return super().form_valid(form)
+    
+    def get_success_url(self, **kwargs):
+        return reverse('advertisement', kwargs={'pk': self.kwargs['pk']})

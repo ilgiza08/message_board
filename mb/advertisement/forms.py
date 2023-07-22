@@ -9,12 +9,11 @@ class CreateAdvForm(ModelForm):
       model = Advertisement
       fields = ['title', 'text',
                 'image', 'video',
-                'files', 'category', 'author'
+                'files', 'category',
               ]
       labels = {
             'title': ('Название'),
             'text': ('Текст объявления'),
-            'author': ('Автор'),
             'image': ('Изображение'),
             'video': ('Видео'),
             'files': ('Файлы'),
@@ -36,4 +35,10 @@ class CommentForm(forms.ModelForm):
     """Форма создания комментария"""
     class Meta:
         model = Comment
-        fields = ['text', ]
+        fields = ['text']
+        widgets = {
+           'text': forms.Textarea(attrs={
+            'class': 'form-control',
+            'placeholder': 'Введите текст отклика'
+       }),
+     }
