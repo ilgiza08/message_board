@@ -36,4 +36,4 @@ class CommentForm(forms.ModelForm):
     """Форма создания комментария"""
     class Meta:
         model = Comment
-        fields = ['text']
+        fields = ['text', ]
