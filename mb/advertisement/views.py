@@ -1,5 +1,3 @@
-from typing import Any
-from django.db.models.query import QuerySet
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Advertisement, Comment
 from .forms import CreateAdvForm, CommentForm
@@ -78,3 +76,6 @@ class CommentView(ListView):
 
     def get_queryset(self):
         return Comment.objects.filter(advertisement__author=self.request.user).select_related('author', 'advertisement')
+
+
+

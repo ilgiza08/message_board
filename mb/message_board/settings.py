@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'advertisement',
     'django_ckeditor_5',
     'debug_toolbar',
+    'sign',
+
 ]
 
 MIDDLEWARE = [
@@ -136,3 +138,6 @@ MEDIA_URL = '/media/'
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+LOGIN_URL = 'sign/login/'
+LOGIN_REDIRECT_URL = '/'
