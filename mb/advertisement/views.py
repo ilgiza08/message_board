@@ -1,5 +1,7 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from .models import Advertisement
+from .models import Advertisement, Comment
 from .forms import CreateAdvForm, CommentForm
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -9,8 +11,10 @@ class AdvertisementView(ListView):
     """Выводит ленту с объявлениями"""
     model = Advertisement
     template_name = 'advertisements.html'
-    queryset = Advertisement.objects.order_by('-created')
     paginate_by = 10
+
+    def get_queryset(self):
+        return Advertisement.objects.order_by('-created').select_related('author')
 
 
 class AdvertisementDetailView(DetailView):
@@ -22,6 +26,7 @@ class AdvertisementDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = CommentForm()
+        context['comments'] = Comment.objects.filter(advertisement=self.object.pk).select_related('author')
         return context
 
 
@@ -65,3 +70,10 @@ class CreateCommentView(SetAuthorMixin, CreateView):
     
     def get_success_url(self, **kwargs):
         return reverse('advertisement', kwargs={'pk': self.kwargs['pk']})
+    
+
+class CommentView(ListView):
+    """Показывает все отклики к моим объявлениям"""
+    model = Comment
+    template_name = 'all_comments.html'
+    context_object_name = 'comment'

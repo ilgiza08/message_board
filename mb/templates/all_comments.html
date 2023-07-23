@@ -89,49 +89,16 @@
 {% load static %}
  
 {% block title %}
-Объявления
+Отклики
 {% endblock title %}
  
 {% block content %}
-<article class="blog-post">
-  <ul class="nav mb-md-0">
-    <li>
-      <a href="{% url 'update' adv.id %}" class="nav-link px-2">Редактировать</a>
-    </li>
-  </ul>
-  <h2 class="blog-post-title">{{adv.title}}</h2>
-  <p class="blog-post-meta">{{ adv.created }} <a href="#">{{adv.author}}</a></p>
-  <hr>
-  <p>{{ adv.text }}</p>
-
-  {% if adv.image %}
-    <p><img src="{{adv.image.url}}" style="width: 100%; float: left; margin-right: 10px; margin-bottom: 40px;"></p>
-  {% else %}
-  <p></p>
-  {% endif %}
-
-  {% if adv.video %}
-    <video>
-      <source src="{{ adv.video.url }}" style="margin-bottom: 40px;">
-    </video>
-  {% else %}
-  <p></p>
-  {% endif %}
-</article>
-
 <section>
-  <!-- Инпут ввода отклика -->
-<form action="{% url 'add_comment' adv.id %}" method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button class="btn btn-sm btn-primary pull-right" type="submit"><i class="fa fa-pencil fa-fw"></i> Добавить отклик</button>
-</form>
-
    <!-- Отклики -->
   <div class="panel">
     <div class="panel-body">
       <div class="media-block">
-        {% for comment in comments %}
+        {% for comment in adv.comment_set.all %}
         <img class="img-circle img-sm" alt="Профиль пользователя" src="https://bootstraptema.ru/snippets/icons/2016/mia/1.png">
         <div class="media-body">
         <div class="mar-btm">
@@ -140,13 +107,13 @@
         </div>
         <p>{{comment.text}}</p>
         <hr>
-      <!-- <div class="pad-ver">
+      <div class="pad-ver">
       <div class="btn-group">
         <a class="btn btn-sm btn-default btn-hover-success" href="#"><i class="fa fa-thumbs-up"></i></a>
         <a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>
       </div>
       <a class="btn btn-sm btn-default btn-hover-primary" href="#">Ответить</a>
-    </div> -->
+    </div>
   </div>
   {% endfor %}
 </div>
