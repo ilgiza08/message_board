@@ -64,7 +64,6 @@ class CreateCommentView(SetAuthorMixin, CreateView):
     success_url = '/advertisement/'
     
     def form_valid(self, form):
-        # form.instance.author = self.request.user
         form.instance.advertisement_id = self.kwargs['pk']
         return super().form_valid(form)
     
@@ -76,4 +75,6 @@ class CommentView(ListView):
     """Показывает все отклики к моим объявлениям"""
     model = Comment
     template_name = 'all_comments.html'
-    context_object_name = 'comment'
+
+    def get_queryset(self):
+        return Comment.objects.filter(advertisement__author=self.request.user).select_related('author', 'advertisement')
