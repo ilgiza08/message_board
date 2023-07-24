@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'advertisement',
-    'sign',
     
     'django_ckeditor_5',
     'debug_toolbar',
@@ -155,9 +154,11 @@ INTERNAL_IPS = [
 ]
 
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/advertisement/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/advertisement/'
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
