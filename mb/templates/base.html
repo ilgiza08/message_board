@@ -51,11 +51,13 @@
             <li><a href="{% url 'main' %}" class="nav-link px-2 link-dark">Объявления</a></li>
             <li><a href="{% url 'all_comments' %}" class="nav-link px-2 link-dark">Отклики</a></li>
           </ul>
-    
           <div class="col-md-3 text-end">
-            <a class="btn btn-outline-primary me-2" href="{% url 'account_login' %}" role="button">Войти</a>
+            {% if user.is_authenticated %}
             <a class="btn btn-outline-primary me-2" href="{% url 'account_logout' %}" role="button">Выйти</a>
+            {% else %}
+            <a class="btn btn-outline-primary me-2" href="{% url 'account_login' %}" role="button">Войти</a>
             <a class="btn btn-primary" href="{% url 'account_signup' %}" role="button">Зарегистрироваться</a>
+            {% endif %}
           </div>
         </header>
       </div>

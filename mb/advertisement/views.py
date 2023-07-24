@@ -69,7 +69,7 @@ class CreateCommentView(SetAuthorMixin, CreateView):
         return reverse('advertisement', kwargs={'pk': self.kwargs['pk']})
     
 
-class CommentView(ListView):
+class CommentView(LoginRequiredMixin, ListView):
     """Показывает все отклики к моим объявлениям"""
     model = Comment
     template_name = 'all_comments.html'
