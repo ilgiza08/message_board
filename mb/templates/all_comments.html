@@ -109,11 +109,8 @@
         </div>
         <p>{{comment.text}}</p>
       <div class="pad-ver">
-      <div class="btn-group">
-        <a class="btn btn-sm btn-default btn-hover-success" href="#"><i class="fa fa-thumbs-up"></i></a>
-        <a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>
-      </div>
-      <a class="btn btn-sm btn-default btn-hover-primary" href="#">Ответить</a>
+      <a class="btn btn-sm btn-default btn-hover-primary" href="{% url 'comment_delete' comment.id %}">Удалить</a>
+      <a class="btn btn-sm btn-default btn-hover-primary" href="{% url 'comment_accept' comment.id %}">Принять</a>
     </div>
   </div>
   {% empty %}

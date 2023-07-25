@@ -1,8 +1,9 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Advertisement, Comment
 from .forms import CreateAdvForm, CommentForm
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 
 
 class AdvertisementView(ListView):
@@ -78,4 +79,17 @@ class CommentView(LoginRequiredMixin, ListView):
         return Comment.objects.filter(advertisement__author=self.request.user).select_related('author', 'advertisement')
 
 
+def comment_delete(request, pk):
+    """Удалить отклик"""
+    comment = Comment.objects.get(id=pk)
+    if comment:
+        comment.delete()
+    return redirect('all_comments')
 
+
+def comment_accept(request, pk):
+    """Принять отклик"""
+    comment = Comment.objects.get(id=pk)
+    if comment:
+        print(comment)
+    return redirect('all_comments')
