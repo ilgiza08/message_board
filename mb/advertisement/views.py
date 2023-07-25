@@ -1,9 +1,11 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from typing import Any, Dict
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Advertisement, Comment
 from .forms import CreateAdvForm, CommentForm
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
+from .filters import CommentFilter
 
 
 class AdvertisementView(ListView):
@@ -78,7 +80,12 @@ class CommentView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Comment.objects.filter(advertisement__author=self.request.user).select_related('author', 'advertisement')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = CommentFilter(self.request.GET, queryset=self.get_queryset()) 
+        return context
 
+    
 def comment_delete(request, pk):
     """Удалить отклик"""
     comment = Comment.objects.get(id=pk)

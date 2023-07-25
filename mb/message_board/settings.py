@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     
     'django_ckeditor_5',
     'debug_toolbar',
+    'django_filters',
 
     'allauth',
     'allauth.account',
