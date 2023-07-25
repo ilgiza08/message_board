@@ -116,7 +116,9 @@
       <a class="btn btn-sm btn-default btn-hover-primary" href="#">Ответить</a>
     </div>
   </div>
-  {% endfor %}
+  {% empty %}
+  <h3>Откликов нет</h3>
+{% endfor %}
 </div>
 </div>
 </div>
