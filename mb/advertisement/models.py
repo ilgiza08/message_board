@@ -26,7 +26,7 @@ class Advertisement(models.Model):
         (MASTERA_ZAKLINANIY, 'Мастера заклинаний'),
         ]
 
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.PROTECT)
     title = models.CharField(max_length=255)
     text = models.TextField()
     image = models.ImageField(upload_to='img', null=True, blank=True)
@@ -35,8 +35,15 @@ class Advertisement(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     category = models.CharField(choices=CATEGORY, max_length=25)
 
+    def __str__(self):
+        return f'{self.title}'
+
 
 class Comment(models.Model):
     advertisement = models.ForeignKey(Advertisement, on_delete=models.CASCADE)
     text = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(User, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.text

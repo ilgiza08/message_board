@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,8 +39,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
     'advertisement',
+    
+    'django_ckeditor_5',
+    'debug_toolbar',
+    'django_filters',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -49,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'message_board.urls'
@@ -71,6 +85,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'message_board.wsgi.application'
 
+AUTHENTICATION_BACKENDS = [
+   # Needed to login by username in Django admin, regardless of `allauth`
+   'django.contrib.auth.backends.ModelBackend',
+  
+   # `allauth` specific authentication methods, such as login by e-mail
+   'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -117,12 +138,43 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_ROOT = f'{BASE_DIR}/media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/advertisement/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/advertisement/'
+
+# настройки для авторизации и регистрации
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+# настройки для отправки письма на почту
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER + '@yandex.ru'
+
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
