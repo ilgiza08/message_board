@@ -98,5 +98,6 @@ def comment_accept(request, pk):
     """Принять отклик"""
     comment = Comment.objects.get(id=pk)
     if comment:
-        print(comment)
+        comment.accepted = True
+        comment.save()
     return redirect('all_comments')

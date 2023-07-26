@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
-    'advertisement',
+    'advertisement.apps.AdvertisementConfig',
     
     'django_ckeditor_5',
     'debug_toolbar',
