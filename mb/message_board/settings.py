@@ -41,11 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
-    'advertisement',
+    'advertisement.apps.AdvertisementConfig',
     
     'django_ckeditor_5',
     'debug_toolbar',
     'django_filters',
+    'django_apscheduler',
 
     'allauth',
     'allauth.account',
@@ -178,3 +179,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER + '@yandex.ru'
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+
+# для периодической отправки имейлов с нововстями
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+APSCHEDULER_RUN_NOW_TIMEOUT = 25

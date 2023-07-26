@@ -44,6 +44,7 @@ class Comment(models.Model):
     text = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.PROTECT)
+    accepted = models.BooleanField(default=False)
 
     def __str__(self):
         return self.text

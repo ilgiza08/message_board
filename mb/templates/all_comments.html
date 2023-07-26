@@ -114,8 +114,12 @@
         </div>
         <p>{{comment.text}}</p>
       <div class="pad-ver">
-      <a class="btn btn-sm btn-default btn-hover-primary" href="{% url 'comment_delete' comment.id %}">Удалить</a>
-      <a class="btn btn-sm btn-default btn-hover-primary" href="{% url 'comment_accept' comment.id %}">Принять</a>
+        {% if comment.accepted %}
+          <p>Отклик принят</p>
+        {% else %}
+          <a class="btn btn-sm btn-default btn-hover-primary" href="{% url 'comment_delete' comment.id %}">Удалить</a>
+          <a class="btn btn-sm btn-default btn-hover-primary" href="{% url 'comment_accept' comment.id %}">Принять</a>
+        {% endif %}
     </div>
   </div>
   {% empty %}
